@@ -35,7 +35,6 @@ console.log('  connections: %s', c);
 // request
 
 var req = [
-  'GET / HTTP/1.1\r\n',
   'Host: ' + url.host + '\r\n',
   'Accept: */*\r\n'
 ].join('');
@@ -70,6 +69,8 @@ function send() {
     ++active;
     process.stdout.write('\r  active: ' + active + ' ');
     var i = 0;
+
+    sock.write('GET / HTTP/1.1\r\n');
 
     setInterval(function(){
       if (null == req[i]) return;
