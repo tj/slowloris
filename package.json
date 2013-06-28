@@ -1,0 +1,11 @@
+{
+  "name": "slowloris",
+  "version": "0.0.1",
+  "description": "unleash the slowloris on a server",
+  "dependencies": {
+    "commander": "~1.2.0"
+  },
+  "bin": {
+    "slowloris": "./slowloris"
+  }
+}
