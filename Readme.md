@@ -8,7 +8,7 @@
 ## Installation
 
 ```
-$ npm install -g slowloris
+$ npm install -g visionmedia/slowloris
 ```
 
 ## Usage
