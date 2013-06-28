@@ -1,6 +1,6 @@
 {
   "name": "slowloris",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "unleash the slowloris on a server",
   "dependencies": {
     "commander": "~1.2.0"
