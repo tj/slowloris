@@ -44,7 +44,7 @@ var req = [
 
 var n = 1000;
 while (n--) {
-  req += 'X-Loris-1: ' + n + '\r\n';
+  req += 'X-Loris-' + n + ': ' + n + '\r\n';
 }
 
 req += '\r\n';
