@@ -60,8 +60,8 @@ function send() {
   var secure = 'https:' == url.protocol;
 
   var opts = {};
-  opts.port = secure ? 443 : 80;
-  opts.host = url.host;
+  opts.port = url.port || (secure ? 443 : 80);
+  opts.host = url.hostname;
 
   var mod = secure ? tls : net;
 
