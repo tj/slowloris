@@ -7,5 +7,9 @@
   },
   "bin": {
     "slowloris": "./slowloris"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/visionmedia/slowloris.git"
   }
 }
